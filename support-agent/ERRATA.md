@@ -41,13 +41,14 @@ are not directly from the official guide but are a reasonable
 implementation pattern. Keep as-is but note in NOTES.md that this is a
 lab convention, not an exam-tested taxonomy.
 
-## Fresh cross-reference items (not in Appendix A)
+## Fresh cross-reference items (from full exam guide read)
 
 ### Context summarization
 
 Lab prompt correctly specifies: summarize at handoff only, not
 progressively during conversation. This aligns with the official guide's
-emphasis on maintaining full conversation fidelity. No correction needed.
+emphasis on maintaining full conversation fidelity (Domain 5.1). No
+correction needed.
 
 ### Tool description discipline
 
@@ -57,3 +58,35 @@ disambiguation angle. Lab prompt already covers this with the
 `lookup_order` vs `get_customer` deliberate confusion. No correction
 needed, but the emphasis on "when NOT to use" should be visible in the
 tool descriptions.
+
+### Programmatic prerequisite enforcement (Domain 1.4)
+
+The official exam guide (Task 1.4, Sample Question 1) explicitly tests
+**programmatic prerequisites that block downstream tool calls until
+prerequisite steps complete** — e.g., blocking `process_refund` until
+`get_customer` has returned a verified customer ID. The lab prompt
+mentions tool-splitting but doesn't mention this enforcement pattern.
+**Should be implemented:** a hook that blocks `process_refund` and
+`cancel_order` unless `get_customer` has been called first in the
+current conversation.
+
+### Structured error metadata fields (Domain 2.2)
+
+The official guide specifies error responses should include
+`errorCategory` (transient/validation/permission), **`isRetryable`
+boolean**, and human-readable descriptions. Lab prompt's error envelope
+has `category`, `message`, `remediation` but omits `isRetryable`.
+**Add `isRetryable` field** to the error envelope.
+
+### Valid empty results vs access failures (Domain 2.2, 5.3)
+
+The guide explicitly tests the distinction: a query that returns no
+results is a **successful query** (not an error), while a query that
+times out is an **access failure** (an error). The mock backend should
+include this scenario: a customer lookup that legitimately finds no
+matching customer (return success with empty result, not an error).
+
+### Customer explicitly requests a human (Domain 5.2)
+
+Added above in Escalation Triggers section. This is a **fourth valid
+trigger** the lab prompt omits. Must be implemented.
