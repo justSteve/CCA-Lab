@@ -250,4 +250,5 @@ def _build_handoff_packet(arguments: dict, state: "ConversationState") -> dict:
         "conversation_turn_count": state.turn_count,
         "tools_called": list(state.tools_called),
         "transient_retry_count": state.transient_retry_count,
+        "conversation_messages": list(state.messages),
     }

@@ -10,6 +10,13 @@
 
 set -euo pipefail
 
+# Verify API key is set and not a placeholder
+if [ -z "${ANTHROPIC_API_KEY:-}" ] || [ "$ANTHROPIC_API_KEY" = "PLACEHOLDER" ]; then
+    echo "Error: ANTHROPIC_API_KEY is not set or is still set to 'PLACEHOLDER'." >&2
+    echo "Export a valid API key before running: export ANTHROPIC_API_KEY='sk-...'" >&2
+    exit 1
+fi
+
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # Ensure backend database exists

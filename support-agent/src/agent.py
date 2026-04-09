@@ -196,6 +196,5 @@ def _execute_with_retry(tool_name: str, arguments: dict, state: ConversationStat
 
         result_str = execute_tool(tool_name, arguments, state)
         result_data = json.loads(result_str)
-        state.record_tool_call(tool_name, result_data)
 
     return result_str
