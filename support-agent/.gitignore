@@ -6,3 +6,5 @@ outputs/
 .dolt/
 *.db
 .beads-credential-key
+__pycache__/
+.gc/tmp/
